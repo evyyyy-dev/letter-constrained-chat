@@ -6,13 +6,13 @@
 
 ## Features
 **Chat System**
-- Filters each message based on the amount of letters each user has.
+- Filters each message based on the amount of letters available.
 - Server-side validation
-- Persistent data storage
+- Data saving
 
 **Rolling**
 - Weighted random letter selection
-- Individually boostable letters (giving it a higher change to get)
+- Individually boostable letters (giving it a higher change to roll)
 
 ---
 
@@ -75,23 +75,21 @@ StarterPlayerScripts
 
 ## Code snippets
 
-Check out [code-snippets.md](https://github.com/evyyyy-dev/past-works/blob/main/letter-constrained-chat/code-snippets.lua) for code examples.
+Check out [code-snippets.md](code-snippets.lua) for code examples.
 
 ---
 
 ## Why I Made This
-This was a project created as a structured technical challenge to push my architectual and system design skills further.
+This was a project created as a challenge to push my scripting skills further.
 
-Inspired by a similar mechanic I saw from a friend, I wanted to create my own technical interpretation with a stronger focus on system architecture.
+Inspired by a similar mechanic I saw from a friend, I wanted to create my own interpretation with a stronger focus on system architecture.
 
-I intentionally chose a system that required server authority, saving player data and real-time UI updates.
+I intentionally chose a system that required server authority, data saving and real-time UI updates.
 
 ## What I Learned
-This project originally started as a single large ServerScript and LocalScript.
+This project originally started as one large ServerScript and LocalScript, which I refactored into modular client/server components, added a weighted prize pool system, and seperated UI logic from core mechanics.
 
-As the system grew, I refactored it into modular client/server components, introduced a weighted prize pool system, and seperated UI logic from core mechanics.
-
-That refactor significantly improved scalability, maintainability and clarity, which taught me the importance of designing systems for growth rather than instant functionality.
+That refactor greatly improved scalability, maintainability and clarity, which taught me the importance of designing systems for growth rather than instantaneous functionality.
 
 ## What I'd Improve
 
