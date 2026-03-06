@@ -27,16 +27,10 @@
 ```
 ReplicatedStorage
  ├─ Modules
- │   ├─ Chat
- │   │   ├─ Client
- │   │   │  ├─ ChatEffects       │ Manages effects only, like hightlighting or updating the count.
- │   │   │  ├─ ChatInput         │ Listens for the chat opening and sends text messages.
- │   │   │  └─ ChatUI            │ Creates the letters' UI, creates text messages and toggles the letters between boosted and unboosted.
- │   │   └─ Server
- │   │      └─ ChatServer        │ Filters the message, and gets a random letter for the user.
- │   └─ Main
- │       ├─ PrizePool            │ Gets a random letter using a weighted prize pool system.
- │       └─ PlayerData           │ Manages player data creation, saving and loading.
+ │   └─ Chat
+ │       ├─ ChatEffects           │ Manages effects only, like hightlighting or updating the count.
+ │       ├─ ChatInput             │ Listens for the chat opening and sends text messages.
+ │       └─ ChatUI                │ Creates the letters' UI, creates text messages and toggles the letters between boosted and unboosted.
  ├─ Remotes
  │   ├─ Events
  │   │   ├─ ClientReady
@@ -52,7 +46,14 @@ ReplicatedStorage
  └─ ModuleRegistry               │ Centralized access for modules, to avoid unorganized require() spams everywhere.
 
 ServerScriptServie
- └─ ChatService                  │ Server-sided connector script (uses ChatServer, PlayerData and PrizePool).
+ ├─ Modules
+ │   ├─ Chat
+ │   │   └─ ChatServer           │ Module for filtering messages and getting a random letter for the user.
+ │   └─ Main
+ │       ├─ PrizePool            │ Gets a random letter using a weighted prize pool system.
+ │       └─ PlayerData           │ Manages player data creation, saving and loading.
+ ├─ ChatService                  │ Server-sided connector script (uses ChatServer, PlayerData and PrizePool).
+ └─ ModuleRegistry               │ Same as above, centralized access for modules.
 
  StarterGui
  ├─ LettersGui
