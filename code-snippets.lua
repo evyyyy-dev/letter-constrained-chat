@@ -1,4 +1,7 @@
---I might add more later
+-- ============================== --
+-- Letter constrained chat (Snippet)
+-- This snippet demonstrates the weighted letter rolling and the message filtering.
+-- ============================================================================= --
 
 --PrizePool.lua
 
@@ -58,9 +61,7 @@ function Pool.GetBoostedPrize(lettersTable)
 	end
 end
 
-
-
-
+return Pool
 
 --ChatServer.lua
 
@@ -70,12 +71,13 @@ end
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 local events = require(ReplicatedStorage:WaitForChild("EventRegistry"))
 
 local receiveMessage = events.RemoteEvents.receiveMessage
 
-local modules = ReplicatedStorage:WaitForChild("Modules")
+local modules = ServerScriptService:WaitForChild("Modules")
 local mainModules = modules:WaitForChild("Main")
 local prizePool = require(mainModules:WaitForChild("PrizePool"))
 
@@ -137,5 +139,3 @@ function Chat:GetRandomLetter(player: Player, lettersTable, playerData)
 end
 
 return Chat
-
-return Pool
