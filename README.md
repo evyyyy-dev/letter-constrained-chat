@@ -28,9 +28,9 @@
 ReplicatedStorage
  ├─ Modules
  │   └─ Chat
- │       ├─ ChatEffects           │ Manages effects only, like hightlighting or updating the count.
- │       ├─ ChatInput             │ Listens for the chat opening and sends text messages.
- │       └─ ChatUI                │ Creates the letters' UI, creates text messages and toggles the letters between boosted and unboosted.
+ │       ├─ ChatEffects          │ Manages effects only, like hightlighting or updating the count.
+ │       ├─ ChatInput            │ Listens for the chat opening and sends text messages.
+ │       └─ ChatUI               │ Creates the letters' UI, creates text messages and toggles the letters between boosted and unboosted.
  ├─ Remotes
  │   ├─ Events
  │   │   ├─ ClientReady
