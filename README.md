@@ -72,6 +72,19 @@ StarterPlayerScripts
  └─ ChatController               │ Client-sided connector script (uses all client chat modules).
 ```
 
+#### System flow
+
+- Both main scripts (server and client) initialize their respective modules through `ModuleRegistry` and `EventRegistry`.
+
+- On player join, `ChatUI` dynamically generates the letter UI using the `Letter` template.
+- `ChatInput` listens for the chat box opening and captures player input.
+- `ChatEffects` manages UI effects, like letter highlighting and count updates.
+
+- When the player sends a message, `ChatInput` fires the `SendMessage` RemoteEvent.
+- `ChatService` receives the message, filters it via `ChatServer`, updates the players letter inventory and broadcasts is with `ReceiveMessage`.
+- After receiving `ReceiveMessage`, `ChatUI` creates the message by using the `ChatMessage` template.
+
+
 ---
 
 ## Code snippets
@@ -94,7 +107,7 @@ That refactor greatly improved scalability, maintainability and clarity, which t
 
 ## What I'd Improve
 
-Even though the system architecture is steady, the UX layer could be improved with animations, sound design and smoother transitions to improve player feel.
+I am happy with the system architeture, but I believe that the UX layer could be improved with animations, sound design and smoother transitions to improve player feel.
 
 ---
 
