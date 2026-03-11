@@ -3,33 +3,7 @@
 -- This snippet demonstrates the weighted letter rolling and the message filtering.
 -- ============================================================================= --
 
---PrizePool.lua
-
---===========--
--- VARIABLES --
---===========--
-
-local Pool = {}
-
-local BOOST_AMOUNT = 6
-
-Pool.LetterChances = {}
-
---==================--
--- FUNCTIONS (MAIN) --
---==================--
-
-local function updateLetterBoosts(lettersTable)
-	for letter, shouldBoost in pairs(lettersTable) do
-		if shouldBoost then
-			Pool.LetterChances[letter] = BOOST_AMOUNT
-			continue
-		end
-
-		Pool.LetterChances[letter] = 1
-	end
-end
-
+-- Gets a random letter using a weighted chance system.
 function Pool.GetBoostedPrize(lettersTable)
 	updateLetterBoosts(lettersTable)
 
@@ -41,8 +15,8 @@ function Pool.GetBoostedPrize(lettersTable)
 		currentTotal += chance
 	end
 
-	if currentTotal == 0 then
-		warn("[PoolModule] Total chance is 0, cannot pick a prize!")
+	if currentTotal <= 0 then
+		warn("[PoolModule] Total chance is under or equal to 0, cannot pick a prize!")
 		return
 	end
 
@@ -61,37 +35,7 @@ function Pool.GetBoostedPrize(lettersTable)
 	end
 end
 
-return Pool
-
---ChatServer.lua
-
---===========--
--- VARIABLES --
---===========--
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
-
-local events = require(ReplicatedStorage:WaitForChild("EventRegistry"))
-
-local receiveMessage = events.RemoteEvents.receiveMessage
-
-local modules = ServerScriptService:WaitForChild("Modules")
-local mainModules = modules:WaitForChild("Main")
-local prizePool = require(mainModules:WaitForChild("PrizePool"))
-
-local ROLL_COOLDOWN = 0.0625
-local MAX_LAYOUT_ORDER = 2^31 - 1
-local lastLayoutOrder = MAX_LAYOUT_ORDER
-
-local Chat = {}
-Chat.lastCall = {}
-
---==================--
--- FUNCTIONS (MAIN) --
---==================--
-
+-- Filters the message based on the letters still available.
 function Chat:FilterMessage(player: Player, playerData, message: string)
 	if typeof(message) ~= "string" then 
 		warn("[ChatService] Message isn't a string!")
@@ -124,18 +68,3 @@ function Chat:FilterMessage(player: Player, playerData, message: string)
 
 	return table.concat(characters, "")
 end
-
-function Chat:GetRandomLetter(player: Player, lettersTable, playerData)
-	local now = os.clock()
-	if Chat.lastCall[player] and now - Chat.lastCall[player] < ROLL_COOLDOWN then return end
-	Chat.lastCall[player] = now
-
-	local randomLetter = prizePool.GetBoostedPrize(lettersTable)
-	if not randomLetter then return end
-
-	playerData[player][randomLetter] += 1 
-
-	return randomLetter, playerData[player][randomLetter]
-end
-
-return Chat
