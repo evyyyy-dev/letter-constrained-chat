@@ -27,10 +27,9 @@
 ```
 ReplicatedStorage
  ├─ Modules
- │   └─ Chat
- │       ├─ ChatEffects          │ Manages effects only, like hightlighting or updating the count.
- │       ├─ ChatInput            │ Listens for the chat opening and sends text messages.
- │       └─ ChatUI               │ Creates the letters' UI, creates text messages and toggles the letters between boosted and unboosted.
+ │   ├─ ChatEffects              │ Manages effects only, like hightlighting or updating the count.
+ │   ├─ ChatInput                │ Listens for the chat opening and sends text messages.
+ │   └─ ChatUI                   │ Creates the letters' UI and text messages and toggles the letters between boosted and unboosted.
  ├─ Remotes
  │   ├─ Events
  │   │   ├─ ClientReady
@@ -40,10 +39,10 @@ ReplicatedStorage
  │   └─ Functions
  │       └─ GetRandomLetter
  ├─ Templates
- │   ├─ Letter                   │ Used to dynamically create the letterGui on join, to avoid having to change 26 frames at once when changing the design.
+ │   ├─ Letter                   │ Used to dynamically create the LetterGui on join, to avoid having to change 26 frames at once when wanting to changing the design.
  │   └─ ChatMessage
- ├─ EventRegistry                │ Centralized access for events / functions, made for cleaner code
- └─ ModuleRegistry               │ Centralized access for modules, to avoid unorganized require() spams everywhere.
+ └─ EventRegistry                │ Centralized access for events / functions, made for cleaner code.
+
 
 ServerScriptServie
  ├─ Modules
@@ -52,8 +51,8 @@ ServerScriptServie
  │   └─ Main
  │       ├─ PrizePool            │ Gets a random letter using a weighted prize pool system.
  │       └─ PlayerData           │ Manages player data creation, saving and loading.
- ├─ ChatService                  │ Server-sided connector script (uses ChatServer, PlayerData and PrizePool).
- └─ ModuleRegistry               │ Same as above, centralized access for modules.
+ └─ ChatService                  │ Server-sided connector script which uses ChatServer, PlayerData and PrizePool.
+
 
  StarterGui
  ├─ LettersGui
@@ -68,22 +67,21 @@ ServerScriptServie
 StarterCharacterScripts
  └─ DisableChat                  │ Simple script that disables Roblox's default chat.
 
+
 StarterPlayerScripts
- └─ ChatController               │ Client-sided connector script (uses all client chat modules).
+ └─ ChatController               │ Client-sided connector script that uses all client chat modules.
 ```
 
 #### System flow
 
-- Both main scripts (server and client) initialize their respective modules through `ModuleRegistry` and `EventRegistry`.
+- Both main scripts (server and client) initialize their respective modules and events, using `EventRegistry` for the events.
 
 - On player join, `ChatUI` dynamically generates the letter UI using the `Letter` template.
 - `ChatInput` listens for the chat box opening and captures player input.
-- `ChatEffects` manages UI effects, like letter highlighting and count updates.
 
 - When the player sends a message, `ChatInput` fires the `SendMessage` RemoteEvent.
-- `ChatService` receives the message, filters it via `ChatServer`, updates the players letter inventory and broadcasts is with `ReceiveMessage`.
+- `ChatService` receives the message, filters it via `ChatServer`, updates the players letter inventory server-sidedly and client-sidedly (with `ChatEffects`) and broadcasts it with `ReceiveMessage`.
 - After receiving `ReceiveMessage`, `ChatUI` creates the message by using the `ChatMessage` template.
-
 
 ---
 
@@ -94,20 +92,17 @@ Check out [code-snippets.md](code-snippets.lua) for code examples.
 ---
 
 ## Why I Made This
+
 This was a project created as a challenge to push my scripting skills further.
 
-Inspired by a similar mechanic I saw from a friend, I wanted to create my own interpretation with a stronger focus on system architecture.
-
-I intentionally chose a system that required server authority, data saving and real-time UI updates.
+Inspired by a similar mechanic I saw from a friend, I wanted to create my own interpretation with boostable letters and a stronger focus on system architecture.
 
 ## What I Learned
-This project originally started as one large ServerScript and LocalScript, which I refactored into modular client/server components, added a weighted prize pool system, and seperated UI logic from core mechanics.
-
-That refactor greatly improved scalability, maintainability and clarity, which taught me the importance of designing systems for growth rather than instantaneous functionality.
+This project originally started as one large ServerScript and LocalScript, which I refactored into modular client/server components, added a weighted prize pool system, and seperated UI logic from core mechanics. It taught me the importance of designing systems for expandability rather than instantaneous functionality.
 
 ## What I'd Improve
 
-I am happy with the system architeture, but I believe that the UX layer could be improved with animations, sound design and smoother transitions to improve player feel.
+I am happy with the current system architeture, but I believe that the UX layer could be improved with animations, sound design and smoother transitions to improve player feel.
 
 ---
 
