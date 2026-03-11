@@ -1,5 +1,5 @@
 -- ============================== --
--- Letter constrained chat (Snippet)
+-- Letter-constrained chat (Snippet)
 -- This snippet demonstrates the weighted letter rolling and the message filtering.
 -- ============================================================================= --
 
